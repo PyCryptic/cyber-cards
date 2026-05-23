@@ -1,0 +1,121 @@
+  :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-red: #ff003c;
+            --dark-bg: #050510;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            overflow: hidden; /* Prevent scrolling during gameplay */
+            user-select: none;
+        }
+
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Cyberpunk Grid Background Animation */
+        .cyber-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: moveGrid 15s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+        }
+
+        /* Card Styles & Animations */
+        .cyber-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-20px) scale(1.05) !important; /* Overrides inline rotation on hover */
+            z-index: 50 !important;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+            cursor: pointer;
+        }
+
+        .cyber-card.selected {
+            transform: translateY(-40px) scale(1.1) !important;
+            z-index: 60 !important;
+            box-shadow: 0 0 40px rgba(188, 19, 254, 0.8);
+            border-color: var(--neon-purple);
+        }
+
+        .cyber-card.disabled {
+            filter: grayscale(100%) opacity(0.5);
+            pointer-events: none;
+        }
+
+        /* Neon Glows */
+        .glow-text-cyan { text-shadow: 0 0 10px var(--neon-blue); }
+        .glow-text-red { text-shadow: 0 0 10px var(--neon-red); }
+        
+        .btn-cyber {
+            position: relative;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            transition: all 0.2s;
+            overflow: hidden;
+        }
+
+        .btn-cyber:hover:not(:disabled) {
+            background: rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+            transform: scale(1.02);
+        }
+
+        .btn-cyber:disabled {
+            border-color: #4b5563;
+            box-shadow: none;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        /* Health/Energy Bars */
+        .stat-bar-container {
+            background: #111827;
+            border: 1px solid #374151;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+        .stat-bar-fill {
+            transition: width 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: scanline 2s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Custom Scrollbar for Action Log */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #00f3ff; border-radius: 3px; }
